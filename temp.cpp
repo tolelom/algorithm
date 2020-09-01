@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+
+ll power(ll base, ll exponent, ll mod) {
+    ll result = 1;
+    while (exponent) {
+        if (exponent % 2) result = (result * base) % mod;
+        base = (base * base) % mod;
+        exponent >>= 1;
+    }
+    return result;
+}
+
+class matrix {
+   public:
+    ll size;
+    ll mod = 1'000'000'007; // modular는 선택입니다만.. 지금은 잠시만 1000
+    vector<vector<ll>> item;
+
+    matrix(ll n = 0) : size(n) {
+        item.resize(n);
+        for (int i = 0; i < n; ++i) item[i].resize(n);
+    }
+
+    matrix operator*(const matrix other) {
+        matrix temp(size);
+        for (int k = 0; k < size; ++k) 
+            for (int i = 0; i < size; ++i) 
+                for (int j = 0; j < size; ++j) {
+                    temp.item[i][j] += item[i][k] * other.item[k][j];
+                    temp.item[i][j] %= mod;
+                }
+        return temp;
+    }
+
+    matrix identity() {
+        matrix result(size);
+        for (int i = 0; i < size; ++i) result.item[i][i] = 1;
+        return result;
+    }
+
+    matrix exponent(ll times) {
+        matrix result, temp;
+
+        result = matrix(size).identity();
+        temp = *this;
+
+        while (times) {
+            if (times % 2) 
+                result = result * temp;
+            times /= 2;
+            temp = temp * temp;
+        } 
+        return result;
+    }
+};
+
+int main() {
+}

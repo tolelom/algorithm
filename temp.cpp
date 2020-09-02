@@ -32,8 +32,8 @@ class matrix {
         for (int k = 0; k < size; ++k) 
             for (int i = 0; i < size; ++i) 
                 for (int j = 0; j < size; ++j) {
-                    temp.item[i][j] += item[i][k] * other.item[k][j];
-                    temp.item[i][j] %= mod;
+                    temp.item[i][j] += item[i][k] * other.item[k][j]; // 아래 줄에서 오버플로우 
+                    temp.item[i][j] = (temp.item[i][j] + mod) % mod; // item[i][j] 값이 음수이면 mod해도 음수이므로 + mod
                 }
         return temp;
     }
@@ -60,5 +60,3 @@ class matrix {
     }
 };
 
-int main() {
-}

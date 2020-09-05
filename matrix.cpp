@@ -5,6 +5,9 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
+typedef vector<ll> vll;
+
+
 
 ll power(ll base, ll exponent, ll mod) {
     ll result = 1;

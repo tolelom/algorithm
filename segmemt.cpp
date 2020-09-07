@@ -1,63 +1,46 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
-/*
-root index = 1
-parent's index = i
-child's index = i*2, i*2+1
-*/
-
-
-
-class Segment {  // segment tree class
-    ll nItem;
-    ll half;
+struct Segment {
+    ll n, half;
     vector<ll> item;
-
-   public:
-    Segment(ll size) : nItem(size) {  // 생성자
-        for (half = 1; half < size; half <<= 1)
-            ;
-        item.resize(half * 2);  // n보다 큰 2의 제곱 수
+    Segment(ll n) : n(n) {
+        for (half = 1; half < n; half <<= 1);
+        item.resize(half * 2);
     }
 
-    void init(ll n) { // 초기화 함수
-        fill(item.begin(), item.end(), 0);
-        for (ll i = 0; i < n; ++i)  // half ~ half + n-1까지
-            cin >> item[i + half];
-
-        for (ll i = half - 1; i; --i)  // 조건을 i로 하는 흑마법
-            item[i] = item[i * 2] + (item[i * 2 + 1]);
+    void init(vector<ll>& arr) {
+        for (ll i = 0; i < n; ++i) 
+            item[i + half] = arr[i];
+        for (ll i = n; i < half; ++i)
+            item[i + half] = 0;
+        for (ll i = half - 1; i; --i) 
+            item[i] = max(item[i * 2], item[i * 2 + 1]);
     }
 
-    ll sum(ll left, ll right) { // left ~ right 번째 수의 합을 구하는 함수
-        ll res = 0;
-        left += half - 1, right += half - 1;
-        while (left <= right) {
-            if (left % 2) res += item[l++];
-            if (!(right % 2)) res += item[r--];
-            left >>= 1;
-            right >>= 1;
-        }
-        return res;
-    }
-    void update(ll idx, ll x) {
-        idx += half - 1;
-        item[idx] = x;
-        idx >>= 1;
-        while (idx) {
-            item[idx] = item[idx * 2] + item[idx * 2 + 1];
-            idx >>= 1;
+    ll sum(ll node, ll ns, ll ne, ll l, ll r) {
+        if (l <= ns && ne <= r) return item[node];
+        else if (ne < l || r < ns) return 0;
+        else {
+            ll mid = (ns + ne) / 2;
+            return max(sum(2 * node, ns, mid, l, r), sum(2 * node + 1, mid + 1, ne, l, r));
         }
     }
 
-    void print() {
-        for (auto i : item) cout << i << ' ';
-        cout << '\n';
+    void update(ll node, ll ns, ll ne, ll idx, ll x) {
+        if (ns == ne) item[node] = x;
+        else {
+            ll mid = (ns + ne) / 2;
+            if (idx <= mid) update(node * 2, ns, mid, idx, x);
+            else update(node * 2 + 1, mid + 1, ne, idx, x);
+
+            item[node] = max(item[node * 2], item[node * 2 + 1]);
+        }
     }
 };

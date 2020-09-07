@@ -19,17 +19,17 @@ struct Segment {
         for (ll i = 0; i < n; ++i) 
             item[i + half] = arr[i];
         for (ll i = n; i < half; ++i)
-            item[i + half] = 0;
+            item[i + half] = 1'000'000'000;
         for (ll i = half - 1; i; --i) 
-            item[i] = max(item[i * 2], item[i * 2 + 1]);
+            item[i] = min(item[i * 2], item[i * 2 + 1]);
     }
 
-    ll sum(ll node, ll ns, ll ne, ll l, ll r) {
+    ll query(ll node, ll ns, ll ne, ll l, ll r) {
         if (l <= ns && ne <= r) return item[node];
-        else if (ne < l || r < ns) return 0;
+        else if (ne < l || r < ns) return 1'000'000'000;
         else {
             ll mid = (ns + ne) / 2;
-            return max(sum(2 * node, ns, mid, l, r), sum(2 * node + 1, mid + 1, ne, l, r));
+            return min(query(2 * node, ns, mid, l, r), query(2 * node + 1, mid + 1, ne, l, r));
         }
     }
 
@@ -40,7 +40,7 @@ struct Segment {
             if (idx <= mid) update(node * 2, ns, mid, idx, x);
             else update(node * 2 + 1, mid + 1, ne, idx, x);
 
-            item[node] = max(item[node * 2], item[node * 2 + 1]);
+            item[node] = min(item[node * 2], item[node * 2 + 1]);
         }
     }
 };

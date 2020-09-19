@@ -1,12 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
-
 struct Segment {
     ll n, half;
     vector<ll> item;

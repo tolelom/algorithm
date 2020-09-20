@@ -1,4 +1,5 @@
-struct Segment {
+class Segment {
+public:
     ll n, half;
     vector<ll> item;
     Segment(ll n) : n(n) {

@@ -16,12 +16,12 @@ public:
             item[i] = min(item[i * 2], item[i * 2 + 1]);
     }
 
-    ll query(ll node, ll start, ll end, ll l, ll r) {
-        if (l <= start && end <= r) return item[node];
-        else if (end < l || r < start) return 1'000'000'000;
+    ll query(ll node, ll start, ll end, ll left, ll right) {
+        if (left <= start && end <= right) return item[node];
+        else if (end < left || right < start) return 1'000'000'000;
         else {
             ll mid = (start + end) / 2;
-            return min(query(2 * node, start, mid, l, r), query(2 * node + 1, mid + 1, end, l, r));
+            return min(query(2 * node, start, mid, left, right), query(2 * node + 1, mid + 1, end, l, r));
         }
     }
 

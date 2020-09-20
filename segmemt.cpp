@@ -16,21 +16,21 @@ public:
             item[i] = min(item[i * 2], item[i * 2 + 1]);
     }
 
-    ll query(ll node, ll ns, ll ne, ll l, ll r) {
-        if (l <= ns && ne <= r) return item[node];
-        else if (ne < l || r < ns) return 1'000'000'000;
+    ll query(ll node, ll start, ll end, ll l, ll r) {
+        if (l <= start && end <= r) return item[node];
+        else if (end < l || r < start) return 1'000'000'000;
         else {
-            ll mid = (ns + ne) / 2;
-            return min(query(2 * node, ns, mid, l, r), query(2 * node + 1, mid + 1, ne, l, r));
+            ll mid = (start + end) / 2;
+            return min(query(2 * node, start, mid, l, r), query(2 * node + 1, mid + 1, end, l, r));
         }
     }
 
-    void update(ll node, ll ns, ll ne, ll idx, ll x) {
-        if (ns == ne) item[node] = x;
+    void update(ll node, ll start, ll end, ll idx, ll x) {
+        if (start == end) item[node] = x;
         else {
-            ll mid = (ns + ne) / 2;
-            if (idx <= mid) update(node * 2, ns, mid, idx, x);
-            else update(node * 2 + 1, mid + 1, ne, idx, x);
+            ll mid = (start + end) / 2;
+            if (idx <= mid) update(node * 2, start, mid, idx, x);
+            else update(node * 2 + 1, mid + 1, end, idx, x);
 
             item[node] = min(item[node * 2], item[node * 2 + 1]);
         }

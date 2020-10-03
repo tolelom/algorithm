@@ -1,8 +1,10 @@
-// gcc 한정 #include <bits/stdc++.h>
-#include <iostream>
+#include <bits/stdc++.h> // gcc 한정 
+// gcc가 아닐 때
+/* #include <iostream>
 #include <vector>
 #include <string>
-#include <algorithm>
+#include <algorithm> */
+
 using namespace std;
 
 typedef long long ll;

@@ -1,3 +1,4 @@
+// gcc 한정 #include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
 #include <string>
